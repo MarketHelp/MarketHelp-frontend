@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/shops_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/products_screen.dart';
+import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/analiytics_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/shops': (context) => ShopsScreen(),
         '/products': (context) => ProductsScreen(),
+        '/analytics': (context) => AnalyticsScreen(),
       },
       home: ShopsScreen(),
     );

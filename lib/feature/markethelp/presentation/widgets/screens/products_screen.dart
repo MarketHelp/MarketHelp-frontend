@@ -25,7 +25,16 @@ class ProductsScreen extends StatelessWidget {
                   logoUrl: "https://example.com/logo.png",
                   onTap: () {
                     // Handle shop tile tap
-                    print("Tapped on Product $index");
+                    Navigator.pushNamed(
+                      context,
+                      '/analytics',
+                      arguments: {
+                        'productName': "Product $index",
+                        'rating': 4.5,
+                        'productImageUrl': "https://example.com/logo.png",
+                        'price': '1 ₽',
+                      },
+                    );
                   },
                   withAnalytics:
                       index % 2 == 0
