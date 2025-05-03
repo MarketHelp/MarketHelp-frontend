@@ -64,14 +64,24 @@ class ChartWidget extends StatelessWidget {
             right: 8,
             child: Container(
               padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: Colors.purple.shade300,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: const Icon(
-                Icons.trending_up,
-                color: Colors.white,
-                size: 16,
+
+              child: Image.asset(
+                'assets/chart/logo_icon.png',
+                width: 24,
+                height: 24,
+                // Remove the color property to show the original PNG colors
+                errorBuilder: (context, error, stackTrace) {
+                  print('Error loading image: $error');
+                  // If loading fails, show a fallback icon that matches the design
+                  return Container(
+                    width: 16,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  );
+                },
               ),
             ),
           ),
