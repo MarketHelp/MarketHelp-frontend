@@ -9,7 +9,11 @@ class ShopsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Header(screenTitle: 'Shops'),
+      appBar: Header(
+        showBackButton: false,
+        withSettings: true,
+        screenTitle: 'Магазины',
+      ),
       body: Column(
         children: [
           // Search box at the top

@@ -9,11 +9,11 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Header(screenTitle: 'Products'),
+      appBar: Header(withSettings: true, screenTitle: 'Товары'),
       body: Column(
         children: [
           // Search box at the top
-          SearchBox(),
+          SearchBox(withSettings: true),
           // This Expanded is crucial - it prevents the Column + ListView crash
           Expanded(
             child: ListView.builder(
