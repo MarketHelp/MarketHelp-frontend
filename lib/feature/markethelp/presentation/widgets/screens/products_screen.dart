@@ -13,7 +13,7 @@ class ProductsScreen extends StatelessWidget {
       body: Column(
         children: [
           // Search box at the top
-          SearchBox(withSettings: true),
+          SearchBox(withSettings: true, hintText: "Найти товар"),
           // This Expanded is crucial - it prevents the Column + ListView crash
           Expanded(
             child: ListView.builder(

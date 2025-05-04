@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:markethelp_frontend/feature/markethelp/domain/usecase/analytics_uscase.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/analysis/chart.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/header.dart';
@@ -9,8 +10,9 @@ class AnalyticsScreen extends StatelessWidget {
   final double rating;
   final String? productImageUrl;
   final String price;
+  final SharePlus _sharePlus = GetIt.I<SharePlus>();
 
-  const AnalyticsScreen({
+  AnalyticsScreen({
     Key? key,
     this.productName = 'Name',
     this.rating = 5.0,
@@ -178,7 +180,7 @@ class AnalyticsScreen extends StatelessWidget {
             files: [XFile(s)],
           );
 
-          await SharePlus.instance.share(params);
+          await _sharePlus.share(params);
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF9966CC),
