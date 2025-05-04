@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/bloc/search_box_product/search_box_product_bloc.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/bloc/search_box_shop/search_box_shop_bloc.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/shops_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/products_screen.dart';
@@ -19,22 +20,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      routes: {
-        '/shops': (context) => ShopsScreen(),
-        '/products': (context) => ProductsScreen(),
-        '/analytics': (context) => AnalyticsScreen(),
-      },
-      home:
-          isShopsScreenHome
-              ? BlocProvider(
-                create: (context) => SearchBoxShopBloc(),
-                child: ShopsScreen(),
-              )
-              : ProductsScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => SearchBoxShopBloc()),
+        BlocProvider(create: (context) => SearchBoxProductBloc()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(primarySwatch: Colors.blue),
+        routes: {
+          '/shops': (context) => ShopsScreen(),
+          '/products': (context) => ProductsScreen(),
+          '/analytics': (context) => AnalyticsScreen(),
+        },
+        home: isShopsScreenHome ? ShopsScreen() : ProductsScreen(),
+      ),
     );
   }
 }

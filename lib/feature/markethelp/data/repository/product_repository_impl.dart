@@ -23,7 +23,7 @@ class ProductRepositoryImpl extends ProductRepository {
     return Future.value([
       ProductEntity(
         id: '1',
-        name: 'Product 1',
+        name: 'Удочка золотая',
         price: 10.0,
         rating: 4.5,
         imageUrl: 'https://example.com/product1.png',
@@ -31,7 +31,7 @@ class ProductRepositoryImpl extends ProductRepository {
       ),
       ProductEntity(
         id: '2',
-        name: 'Product 2',
+        name: 'Вечный шрекс',
         price: 20.0,
         rating: 4.0,
         imageUrl: 'https://example.com/product2.png',

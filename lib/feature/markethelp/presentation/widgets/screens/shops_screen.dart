@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/bloc/search_box_product/search_box_product_bloc.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/bloc/search_box_shop/search_box_shop_bloc.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/header.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/search_box.dart';
@@ -46,9 +47,8 @@ class ShopsScreen extends StatelessWidget {
                           context,
                           '/products',
                           arguments: {
-                            // TODO: WAT ??????????????????????????
-                            'shopName': "Shop $index",
-                            'apiKey': "api key $index",
+                            'shopName': shop.name,
+                            'apiKey': shop.apiKey,
                           },
                         );
                       },

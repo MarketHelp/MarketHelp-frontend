@@ -51,14 +51,14 @@ class SearchBox extends StatelessWidget {
     Key? key,
     String hintText = 'Найти магазин',
     bool withSettings = false,
-    VoidCallback? onSettingsTap,
+    VoidCallback? onFilterTap,
     Function(String)? onSearchChanged,
   }) {
     return withSettings
         ? SearchBox.withSettings(
           key: key,
           hintText: hintText,
-          onSettingsTap: onSettingsTap,
+          onSettingsTap: onFilterTap,
           onSearchChanged: onSearchChanged,
         )
         : SearchBox.basic(
