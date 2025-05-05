@@ -60,6 +60,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: "^0.14.3"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -75,6 +76,7 @@ flutter:
     - assets/chart/logo_icon.png
     - assets/auth/logo_icon.png
     - assets/splash/splash_logo.png
+    - assets/icon/icon.png
 
   # assets:
   #   - images/a_dot_burr.jpeg
@@ -110,8 +112,14 @@ flutter_native_splash:
   ios: true
   web: false
   image: assets/splash/splash_logo.png
-  color: "#FFFFFF"
+  color: "#D6C9F2"
   android_12:
       # Показываем белый экран на системном сплеше android 12+ 
     image: assets/splash/splash_logo.png
-    color: "#F2EDE7"
+    color: "#D6C9F2"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21 #
