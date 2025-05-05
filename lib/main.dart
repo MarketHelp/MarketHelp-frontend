@@ -15,10 +15,14 @@ import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/scre
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/products_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/analiytics_screen.dart';
 import 'package:markethelp_frontend/injector.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
   await initDependencies();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
+  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {
