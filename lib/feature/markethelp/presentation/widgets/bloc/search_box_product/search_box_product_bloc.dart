@@ -18,6 +18,8 @@ EventTransformer<E> debounceDroppable<E>(Duration duration) {
 class SearchBoxProductBloc
     extends Bloc<SearchBoxProductEvent, SearchBoxProductState> {
   final ProductRepository repository = GetIt.I<ProductRepository>();
+  String shopId = "";
+  List<ProductEntity> currentProducts = List<ProductEntity>.empty();
 
   SearchBoxProductBloc()
     : super(
@@ -28,13 +30,17 @@ class SearchBoxProductBloc
       transformer: debounceDroppable(const Duration(milliseconds: 300)),
     );
 
+    on<SearchBoxProductLoadEvent>((event, emit) async {
+      shopId = event.shopId;
+      _loadInitialData();
+    });
     _loadInitialData();
   }
 
   Future<void> _loadInitialData() async {
     try {
-      final products = await repository.getProducts();
-      emit(SearchBoxProductInitialState(products: products));
+      currentProducts = await repository.getProducts(shopId);
+      emit(SearchBoxProductInitialState(products: currentProducts));
     } catch (e) {
       // Handle error if needed
     }
@@ -46,20 +52,17 @@ class SearchBoxProductBloc
   ) async {
     if (event is SearchBoxProductTextChangedEvent) {
       if (event.text.isEmpty) {
-        final products = await repository.getProducts();
-        emit(SearchBoxProductInitialState(products: products));
+        emit(SearchBoxProductInitialState(products: currentProducts));
         return;
       }
 
       if (event.text.length < 3) {
-        final products = await repository.getProducts();
-        emit(SearchBoxProductInitialState(products: products));
+        emit(SearchBoxProductInitialState(products: currentProducts));
         return;
       }
 
       try {
-        final products = await repository.getProducts();
-        final filteredProducts = _filterProduct(products, event.text);
+        final filteredProducts = _filterProduct(currentProducts, event.text);
         emit(SearchBoxProductResultState(products: filteredProducts));
       } catch (e) {
         // Handle error if needed

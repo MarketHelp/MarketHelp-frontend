@@ -4,7 +4,7 @@ import 'package:markethelp_frontend/feature/markethelp/domain/entity/product_ent
 /// Repository interface for product-related operations
 abstract class ProductRepository {
   /// Get list of products from connected shops
-  Future<List<ProductEntity>> getProducts();
+  Future<List<ProductEntity>> getProducts(String shopId);
 
   /// Synchronize product data with Yandex Market
   Future<void> syncProducts();

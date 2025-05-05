@@ -6,10 +6,12 @@ import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/comp
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/search_box.dart';
 
 class ProductsScreen extends StatelessWidget {
-  ProductsScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    final String shopId = args['shopId'] ?? null;
+    context.read<SearchBoxProductBloc>().add(SearchBoxProductLoadEvent(shopId));
+
     return Scaffold(
       appBar: Header(withSettings: true, screenTitle: 'Товары'),
       body: Column(
@@ -32,6 +34,11 @@ class ProductsScreen extends StatelessWidget {
           // This Expanded is crucial - it prevents the Column + ListView crash
           BlocBuilder<SearchBoxProductBloc, SearchBoxProductState>(
             builder: (context, state) {
+              List<String> links = [
+                "https://asu-analitika.ru/wp-content/uploads/2019/09/02-700x441.png",
+                "https://finalytics.pro/wp-content/uploads/2018/01/DgDin1.png",
+              ];
+
               return Expanded(
                 child: ListView.builder(
                   itemCount: state.products.length,
@@ -51,18 +58,14 @@ class ProductsScreen extends StatelessWidget {
                             'rating': product.rating,
                             'productImageUrl': product.imageUrl,
                             'price': '1 ₽',
+                            'chartImageUrls': links,
                           },
                         );
                       },
                       withAnalytics: product.visualizationAvailable,
                       timeData: '12:00',
                       chartImageUrls:
-                          product.visualizationAvailable
-                              ? [
-                                "https://asu-analitika.ru/wp-content/uploads/2019/09/02-700x441.png",
-                                "https://asu-analitika.ru/wp-content/uploads/2019/09/02-700x441.png",
-                              ]
-                              : null,
+                          product.visualizationAvailable ? links : null,
                     );
                   },
                 ),

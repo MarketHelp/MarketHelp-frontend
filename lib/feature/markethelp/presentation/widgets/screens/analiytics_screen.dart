@@ -6,22 +6,31 @@ import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/comp
 import 'package:share_plus/share_plus.dart';
 
 class AnalyticsScreen extends StatelessWidget {
-  final String productName;
-  final double rating;
-  final String? productImageUrl;
-  final String price;
+  // final String productName;
+  // final double rating;
+  // final String? productImageUrl;
+  // final String price;
   final SharePlus _sharePlus = GetIt.I<SharePlus>();
 
-  AnalyticsScreen({
-    Key? key,
-    this.productName = 'Name',
-    this.rating = 5.0,
-    this.productImageUrl,
-    this.price = '1 ₽',
-  }) : super(key: key);
+  // AnalyticsScreen({
+  //   Key? key,
+  //   this.productName = 'Name',
+  //   this.rating = 5.0,
+  //   this.productImageUrl,
+  //   this.price = '1 ₽',
+  // }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    final String productName = args['productName'] ?? 'Unknown Product';
+    final double rating = args['rating'] ?? 0.0;
+    final String? productImageUrl = args['productImageUrl'];
+    final String price = args['price'] ?? '0 ₽';
+    final String description =
+        args['description'] ?? 'No description available';
+    final List<String> chartImageUrls = args['chartImageUrls'] ?? [];
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: Header(screenTitle: "Анализ"),
@@ -32,7 +41,7 @@ class AnalyticsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Product card
-              _buildProductCard(),
+              _buildProductCard(productName, rating, productImageUrl, price),
 
               const SizedBox(height: 16),
 
@@ -42,16 +51,15 @@ class AnalyticsScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Этот ёбаный чёрт так заебал, мамина гордость нахуй',
-                style: TextStyle(fontSize: 14),
-              ),
+              Text(description, style: TextStyle(fontSize: 14)),
 
               const SizedBox(height: 16),
 
               ChartWidget(
                 imageUrl:
-                    'https://www.vsu.ru/ru/persons/photo.php?p=24431', // Replace with your chart URL
+                    chartImageUrls.isNotEmpty
+                        ? chartImageUrls[0]
+                        : '', // Replace with your chart URL
                 height: 200,
                 width: double.infinity,
               ),
@@ -60,7 +68,9 @@ class AnalyticsScreen extends StatelessWidget {
 
               ChartWidget(
                 imageUrl:
-                    'https://www.vsu.ru/ru/persons/photo.php?p=24431', // Replace with your chart URL
+                    chartImageUrls.isNotEmpty && chartImageUrls.length > 1
+                        ? chartImageUrls[1]
+                        : '', // Replace with your chart URL
                 height: 200,
                 width: double.infinity,
               ),
@@ -73,7 +83,7 @@ class AnalyticsScreen extends StatelessWidget {
               const SizedBox(height: 8),
 
               const Text(
-                'Да хуй знает, хуйца пососи',
+                'Заглушка под рекомендации',
                 style: TextStyle(fontSize: 14),
               ),
 
@@ -91,7 +101,12 @@ class AnalyticsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProductCard() {
+  Widget _buildProductCard(
+    String productName,
+    double rating,
+    String? productImageUrl,
+    String price,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

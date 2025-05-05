@@ -1,5 +1,6 @@
 class ProductEntity {
   final String id;
+  final String shopId;
   final String name;
   final String imageUrl;
   final double price;
@@ -8,6 +9,7 @@ class ProductEntity {
 
   ProductEntity({
     required this.id,
+    required this.shopId,
     required this.name,
     required this.imageUrl,
     required this.price,

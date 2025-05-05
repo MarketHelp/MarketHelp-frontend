@@ -46,10 +46,7 @@ class ShopsScreen extends StatelessWidget {
                         Navigator.pushNamed(
                           context,
                           '/products',
-                          arguments: {
-                            'shopName': shop.name,
-                            'apiKey': shop.apiKey,
-                          },
+                          arguments: {'shopId': shop.id},
                         );
                       },
                     );

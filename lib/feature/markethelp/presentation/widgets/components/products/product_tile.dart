@@ -262,8 +262,11 @@ class ProductTile extends StatelessWidget {
                 child: Image.network(
                   logoUrl!,
                   fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
                   errorBuilder: (context, error, stackTrace) {
-                    return const Icon(Icons.store, color: Colors.grey);
+                    print('Error loading image: $error');
+                    return const Icon(Icons.image, color: Colors.grey);
                   },
                 ),
               )
