@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:markethelp_frontend/feature/markethelp/domain/usecase/analytics_uscase.dart';
 
 class ChartWidget extends StatelessWidget {
   final String? imageUrl;
@@ -16,6 +18,7 @@ class ChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AnalyticsUsecase analyticsUsecase = GetIt.I<AnalyticsUsecase>();
     return Container(
       height: height,
       width: width ?? double.infinity,
@@ -30,30 +33,32 @@ class ChartWidget extends StatelessWidget {
           if (imageUrl != null && imageUrl!.isNotEmpty)
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                imageUrl!,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-                errorBuilder: (context, error, stackTrace) {
-                  return _buildPlaceholder();
-                },
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value:
-                          loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.purple.shade300,
-                      ),
-                    ),
-                  );
-                },
+              child: Image(
+                image: AssetImage(analyticsUsecase.urlProcessing(imageUrl!)),
               ),
+              // Image.network(
+              // imageUrl!,
+              // fit: BoxFit.cover,
+              // width: double.infinity,
+              // height: double.infinity,
+              // errorBuilder: (context, error, stackTrace) {
+              //   return _buildPlaceholder();
+              // },
+              // loadingBuilder: (context, child, loadingProgress) {
+              //   if (loadingProgress == null) return child;
+              //   return Center(
+              //     child: CircularProgressIndicator(
+              //       value:
+              //           loadingProgress.expectedTotalBytes != null
+              //               ? loadingProgress.cumulativeBytesLoaded /
+              //                   loadingProgress.expectedTotalBytes!
+              //               : null,
+              //       valueColor: AlwaysStoppedAnimation<Color>(
+              //         Colors.purple.shade300,
+              //       ),
+              //     ),
+              //   );
+              // },
             )
           else
             _buildPlaceholder(),

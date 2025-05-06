@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:markethelp_frontend/feature/markethelp/domain/repository/product_repository.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/bloc/search_box_product/search_box_product_bloc.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/header.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/products/product_tile.dart';
@@ -11,6 +13,9 @@ class ProductsScreen extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as Map;
     final String shopId = args['shopId'] ?? null;
     context.read<SearchBoxProductBloc>().add(SearchBoxProductLoadEvent(shopId));
+
+    //MVP Only
+    ProductRepository _productRepository = GetIt.I<ProductRepository>();
 
     return Scaffold(
       appBar: Header(withSettings: true, screenTitle: 'Товары'),
@@ -34,16 +39,12 @@ class ProductsScreen extends StatelessWidget {
           // This Expanded is crucial - it prevents the Column + ListView crash
           BlocBuilder<SearchBoxProductBloc, SearchBoxProductState>(
             builder: (context, state) {
-              List<String> links = [
-                "https://asu-analitika.ru/wp-content/uploads/2019/09/02-700x441.png",
-                "https://finalytics.pro/wp-content/uploads/2018/01/DgDin1.png",
-              ];
-
               return Expanded(
                 child: ListView.builder(
                   itemCount: state.products.length,
                   itemBuilder: (context, index) {
                     final product = state.products[index];
+                    print(product.chartImageUrls);
                     return ProductTile(
                       productName: product.name,
                       rating: product.rating,
@@ -58,14 +59,16 @@ class ProductsScreen extends StatelessWidget {
                             'rating': product.rating,
                             'productImageUrl': product.imageUrl,
                             'price': '1 ₽',
-                            'chartImageUrls': links,
+                            'chartImageUrls': product.chartImageUrls,
                           },
                         );
                       },
                       withAnalytics: product.visualizationAvailable,
                       timeData: '12:00',
                       chartImageUrls:
-                          product.visualizationAvailable ? links : null,
+                          product.visualizationAvailable
+                              ? product.chartImageUrls
+                              : null,
                     );
                   },
                 ),

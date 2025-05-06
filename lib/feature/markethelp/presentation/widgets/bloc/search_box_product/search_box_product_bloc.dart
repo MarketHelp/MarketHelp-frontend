@@ -40,6 +40,18 @@ class SearchBoxProductBloc
   Future<void> _loadInitialData() async {
     try {
       currentProducts = await repository.getProducts(shopId);
+      for (int i = 0; i < currentProducts.length; i++) {
+        ProductEntity product = currentProducts[i];
+        if (product.visualizationAvailable) {
+          List<String> visuals = await repository.generateVisualization(
+            shopId,
+            product.id,
+          );
+          print(visuals);
+          product.addChartImageUrls(visuals);
+          currentProducts[i] = product;
+        }
+      }
       emit(SearchBoxProductInitialState(products: currentProducts));
     } catch (e) {
       // Handle error if needed
