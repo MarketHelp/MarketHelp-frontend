@@ -14,9 +14,9 @@ abstract class ProductRepository {
 
   /// Generate visualization for a product
   /// should be a image
-  Future<String> generateVisualization(
-    String productId,
-    String chartType, {
+  Future<List<String>> generateVisualization(
+    String shopId,
+    String productId, {
     Map<String, dynamic>? filters,
   });
 

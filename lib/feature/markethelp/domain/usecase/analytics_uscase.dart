@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AnalyticsUsecase {
-  final Dio _dio = Dio();
+  final Dio _dio = GetIt.I<Dio>();
 
   /// Downloads a file from the provided URL and saves it to a local path
   /// Returns the path to the downloaded file or throws an exception if download fails
@@ -93,5 +96,18 @@ class AnalyticsUsecase {
         print('Failed to delete file $path: ${e.toString()}');
       }
     }
+  }
+
+  String urlProcessing(String url) {
+    Map<String, String> imageUrls = {
+      'id1': 'assets/mvp_charts/bar1.png',
+      'id2': 'assets/mvp_charts/pie1.png',
+      'id3': 'assets/mvp_charts/share_graph1.png',
+      'id4': 'assets/mvp_charts/bar2.png',
+      'id5': 'assets/mvp_charts/pie2.png',
+      'id6': 'assets/mvp_charts/share_graph2.png',
+    };
+
+    return imageUrls[url] ?? 'assets/mvp_charts/bar1.png';
   }
 }

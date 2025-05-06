@@ -3,13 +3,17 @@ import 'package:markethelp_frontend/feature/markethelp/domain/repository/product
 
 class ProductRepositoryImpl extends ProductRepository {
   @override
-  Future<String> generateVisualization(
-    String productId,
-    String chartType, {
+  Future<List<String>> generateVisualization(
+    String shopId,
+    String productId, {
     Map<String, dynamic>? filters,
   }) {
-    // TODO: implement generateVisualization
-    throw UnimplementedError();
+    Map<String, List<String>> visuals = Map<String, List<String>>.from({
+      "1": ['id1', 'id2', 'id3'],
+      "2": ['id4', 'id5', 'id6'],
+    });
+
+    return Future.value(visuals[shopId] ?? []);
   }
 
   @override
