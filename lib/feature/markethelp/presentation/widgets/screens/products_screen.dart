@@ -44,26 +44,7 @@ class ProductsScreen extends StatelessWidget {
                   itemCount: state.products.length,
                   itemBuilder: (context, index) {
                     final product = state.products[index];
-                    List<String> links = [];
-                    FutureBuilder<List<String>>(
-                      //MVP ONLY MAYBE REMOVE LATER
-                      future: _productRepository.generateVisualization(
-                        shopId,
-                        product.id,
-                      ),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          links = snapshot.data!;
-                        } else if (snapshot.hasError) {
-                          return const Text('Error loading visualization');
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-                        return const SizedBox.shrink(); // Placeholder widget
-                      },
-                    );
-
-                    print(links);
+                    print(product.chartImageUrls);
                     return ProductTile(
                       productName: product.name,
                       rating: product.rating,
@@ -78,14 +59,16 @@ class ProductsScreen extends StatelessWidget {
                             'rating': product.rating,
                             'productImageUrl': product.imageUrl,
                             'price': '1 ₽',
-                            'chartImageUrls': links,
+                            'chartImageUrls': product.chartImageUrls,
                           },
                         );
                       },
                       withAnalytics: product.visualizationAvailable,
                       timeData: '12:00',
                       chartImageUrls:
-                          product.visualizationAvailable ? links : null,
+                          product.visualizationAvailable
+                              ? product.chartImageUrls
+                              : null,
                     );
                   },
                 ),
