@@ -8,3 +8,5 @@ class SearchBoxShopTextChangedEvent extends SearchBoxShopEvent {
 
   SearchBoxShopTextChangedEvent(this.text);
 }
+
+class SearchBoxUpdateEvent extends SearchBoxShopEvent {}

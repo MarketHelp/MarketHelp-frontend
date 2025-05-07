@@ -4,6 +4,7 @@ import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/bloc
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/bloc/search_box_shop/search_box_shop_bloc.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/header.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/search_box.dart';
+import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/shops/floating%20button.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/shops/shop_tile.dart';
 
 class ShopsScreen extends StatelessWidget {
@@ -16,6 +17,12 @@ class ShopsScreen extends StatelessWidget {
         showBackButton: false,
         withSettings: true,
         screenTitle: 'Магазины',
+      ),
+      floatingActionButton: ShopFloatingButton(
+        onPressed: () {
+          // Handle floating button press
+          Navigator.pushNamed(context, '/addShop');
+        },
       ),
       body: Column(
         children: [
