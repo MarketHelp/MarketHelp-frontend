@@ -26,6 +26,8 @@ class SearchBoxShopBloc extends Bloc<SearchBoxShopEvent, SearchBoxShopState> {
       transformer: debounceDroppable(const Duration(milliseconds: 300)),
     );
 
+    on<SearchBoxUpdateEvent>((event, emit) => _loadInitialData());
+
     _loadInitialData();
   }
 
