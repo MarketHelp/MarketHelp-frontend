@@ -97,7 +97,11 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
         if (type == HeaderType.withSettings)
           IconButton(
             icon: const Icon(Icons.settings, color: Colors.white),
-            onPressed: onSettingsTap ?? () {},
+            onPressed:
+                onSettingsTap ??
+                () {
+                  Navigator.pushNamed(context, '/settings');
+                },
           ),
       ],
     );
