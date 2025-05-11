@@ -11,6 +11,7 @@ import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/bloc
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/auth_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/login_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/registration_screen.dart';
+import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/settings_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/shop/add_shop_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/shops_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/products_screen.dart';
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
                     apiKeyController: TextEditingController(),
                     onSubmit: () {},
                   ),
+              '/settings': (context) => SettingsScreen(),
             },
             home: state.currentScreen,
           );

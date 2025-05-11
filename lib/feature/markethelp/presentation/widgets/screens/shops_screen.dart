@@ -12,9 +12,16 @@ class ShopsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments ?? {};
+    bool isMainScreen = true;
+
+    if (args is Map<String, dynamic>) {
+      isMainScreen = args['isMainScreen'] ?? false;
+    }
+
     return Scaffold(
       appBar: Header(
-        showBackButton: false,
+        showBackButton: !isMainScreen,
         withSettings: true,
         screenTitle: 'Магазины',
       ),
