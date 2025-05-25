@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/account/account_tile.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/header.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -22,30 +23,7 @@ class SettingsScreen extends StatelessWidget {
                 height: 40,
               ), // Fixed small space instead of flexible spacer
               // Profile section with bigger icon
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 30.0),
-                child: Row(
-                  children: [
-                    const SizedBox(width: 20),
-                    Container(
-                      width: 90, // Increased from 60
-                      height: 90, // Increased from 60
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.black, width: 1),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    const Text(
-                      'login',
-                      style: TextStyle(
-                        fontSize: 20, // Slightly larger text
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              AccountTile(),
 
               // More space between profile and menu items
               const SizedBox(height: 20),
@@ -71,7 +49,13 @@ class SettingsScreen extends StatelessWidget {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
-                child: _buildMenuItem(context, 'Профиль', onTap: () {}),
+                child: _buildMenuItem(
+                  context,
+                  'Профиль',
+                  onTap: () {
+                    Navigator.pushNamed(context, '/profile');
+                  },
+                ),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,

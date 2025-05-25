@@ -2,7 +2,7 @@ name: markethelp_frontend
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -37,7 +37,7 @@ dependencies:
   flutter_bloc: ^9.1.0
   share_plus: ^11.0.0
   retrofit: ^4.4.0
-  logger: ^2.4.0  # for logging purpose
+  logger: ^2.4.0 # for logging purpose
   json_annotation: ^4.9.0
   dio: ^5.3.3
   path_provider: ^2.1.1
@@ -46,11 +46,12 @@ dependencies:
   get_it: ^8.0.3
   dartz: ^0.10.1
   flutter_native_splash: ^2.4.6
+  multi_dropdown: ^3.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  retrofit_generator: '>=8.0.0 <10.0.0' # for Dart 3.3 use ^9.0.0
+  retrofit_generator: ">=8.0.0 <10.0.0" # for Dart 3.3 use ^9.0.0
   build_runner: ^2.3.3
   json_serializable: ^6.8.0
 
@@ -67,7 +68,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -115,7 +115,7 @@ flutter_native_splash:
   image: assets/splash/splash_logo.png
   color: "#D6C9F2"
   android_12:
-      # Показываем белый экран на системном сплеше android 12+ 
+    # Показываем белый экран на системном сплеше android 12+
     image: assets/splash/splash_logo.png
     color: "#D6C9F2"
 

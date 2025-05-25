@@ -31,6 +31,12 @@ class AnalyticsScreen extends StatelessWidget {
         args['description'] ?? 'No description available';
     final List<String> chartImageUrls = args['chartImageUrls'] ?? [];
 
+    // Extract the filter parameters from AnalyticsCreateScreen
+    final List<String> selectedCategories = args['categories'] ?? [];
+    final List<String> selectedRatings = args['ratings'] ?? [];
+    final List<String> selectedRanges = args['ranges'] ?? [];
+    final List<String> selectedMoods = args['moods'] ?? [];
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: Header(screenTitle: "Анализ"),
