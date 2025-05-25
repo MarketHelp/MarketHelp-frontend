@@ -53,12 +53,12 @@ class ProductsScreen extends StatelessWidget {
                         // Handle product tile tap
                         Navigator.pushNamed(
                           context,
-                          '/analytics',
+                          '/createAnalytics',
                           arguments: {
                             'productName': product.name,
                             'rating': product.rating,
                             'productImageUrl': product.imageUrl,
-                            'price': '1 ₽',
+                            'price': product.price,
                             'chartImageUrls': product.chartImageUrls,
                           },
                         );

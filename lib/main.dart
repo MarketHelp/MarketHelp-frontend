@@ -8,8 +8,10 @@ import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/bloc
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/bloc/registration_screen/registration_screen_bloc.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/bloc/search_box_product/search_box_product_bloc.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/bloc/search_box_shop/search_box_shop_bloc.dart';
+import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/analytics_create_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/auth_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/login_screen.dart';
+import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/profile_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/registration_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/settings_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/shop/add_shop_screen.dart';
@@ -65,6 +67,8 @@ class MyApp extends StatelessWidget {
                     onSubmit: () {},
                   ),
               '/settings': (context) => SettingsScreen(),
+              '/profile': (context) => ProfileScreen(),
+              '/createAnalytics': (context) => AnalyticsCreateScreen(),
             },
             home: state.currentScreen,
           );

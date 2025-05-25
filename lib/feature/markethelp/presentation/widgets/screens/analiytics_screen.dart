@@ -31,6 +31,17 @@ class AnalyticsScreen extends StatelessWidget {
         args['description'] ?? 'No description available';
     final List<String> chartImageUrls = args['chartImageUrls'] ?? [];
 
+    // Extract the filter parameters from AnalyticsCreateScreen
+    final List<String> selectedCategories = args['categories'] ?? [];
+    final List<String> selectedRatings = args['ratings'] ?? [];
+    final String selectedRanges = args['range'] ?? "";
+    final String selectedMoods = args['mood'] ?? "";
+
+    print('Selected Categories: $selectedCategories');
+    print('Selected Ratings: $selectedRatings');
+    print('Selected Ranges: $selectedRanges');
+    print('Selected Moods: $selectedMoods');
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: Header(screenTitle: "Анализ"),
@@ -215,6 +226,7 @@ class AnalyticsScreen extends StatelessWidget {
       width: double.infinity,
       child: OutlinedButton(
         onPressed: () {
+          Navigator.pop(context, true);
           Navigator.pop(context, true);
         },
         style: OutlinedButton.styleFrom(
