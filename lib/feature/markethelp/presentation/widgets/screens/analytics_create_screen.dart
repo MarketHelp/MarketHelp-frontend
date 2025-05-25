@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/dropdown/base_select_dropdown.dart';
+import 'package:multi_dropdown/multi_dropdown.dart';
 
 class AnalyticsCreateScreen extends StatefulWidget {
   const AnalyticsCreateScreen({Key? key}) : super(key: key);
@@ -9,23 +9,40 @@ class AnalyticsCreateScreen extends StatefulWidget {
 }
 
 class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
-  // Variables to store selected values for each dropdown
-  List<String> selectedCategories = [];
-  List<String> selectedRatings = [];
-  List<String> selectedRanges = [];
-  List<String> selectedMoods = [];
+  // Controllers for the dropdowns
+  final categoriesController = MultiSelectController<String>();
+  final ratingsController = MultiSelectController<String>();
+  final rangeController = MultiSelectController<String>();
+  final moodController = MultiSelectController<String>();
 
-  // Example values for dropdowns
-  final List<String> categories = ['Одежда', 'Техника', 'Еда', 'Книги'];
-  final List<String> ratings = [
-    '1 звезда',
-    '2 звезды',
-    '3 звезды',
-    '4 звезды',
-    '5 звезд',
+  // Example values for dropdowns using DropdownItem format
+  final List<DropdownItem<String>> categories = [
+    DropdownItem(label: 'Одежда', value: 'Одежда'),
+    DropdownItem(label: 'Техника', value: 'Техника'),
+    DropdownItem(label: 'Еда', value: 'Еда'),
+    DropdownItem(label: 'Книги', value: 'Книги'),
   ];
-  final List<String> ranges = ['Неделя', 'Месяц', 'Квартал', 'Год'];
-  final List<String> moods = ['Позитивные', 'Нейтральные', 'Негативные'];
+
+  final List<DropdownItem<String>> ratings = [
+    DropdownItem(label: '★', value: '1'),
+    DropdownItem(label: '★★', value: '2'),
+    DropdownItem(label: '★★★', value: '3'),
+    DropdownItem(label: '★★★★', value: '4'),
+    DropdownItem(label: '★★★★★', value: '5'),
+  ];
+
+  final List<DropdownItem<String>> ranges = [
+    DropdownItem(label: 'Неделя', value: 'Неделя'),
+    DropdownItem(label: 'Месяц', value: 'Месяц'),
+    DropdownItem(label: 'Квартал', value: 'Квартал'),
+    DropdownItem(label: 'Год', value: 'Год'),
+  ];
+
+  final List<DropdownItem<String>> moods = [
+    DropdownItem(label: 'Позитивные', value: 'Позитивные'),
+    DropdownItem(label: 'Нейтральные', value: 'Нейтральные'),
+    DropdownItem(label: 'Негативные', value: 'Негативные'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -79,50 +96,176 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                         ),
                       ),
 
-                      // Category dropdown
-                      BaseSelectDropdown(
-                        name: 'Категории',
-                        values: categories,
-                        initialDropDownHeader:
-                            selectedCategories.isEmpty
-                                ? ''
-                                : '${selectedCategories.length} выбрано',
+                      // Multi-select Category dropdown
+                      MultiDropdown<String>(
+                        controller: categoriesController,
+                        items: categories,
+                        fieldDecoration: FieldDecoration(
+                          hintText: 'Категории',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey[300]!),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                              color: const Color(0xFF8257E6),
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                        ),
+                        chipDecoration: const ChipDecoration(
+                          backgroundColor: Color(0xFFD6C9F2),
+                          labelStyle: TextStyle(color: Colors.black87),
+                          wrap: true,
+                        ),
+                        dropdownDecoration: DropdownDecoration(
+                          maxHeight: 300,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        dropdownItemDecoration: DropdownItemDecoration(
+                          selectedIcon: const Icon(
+                            Icons.check,
+                            color: Color(0xFF8257E6),
+                          ),
+                        ),
+                        onSelectionChange: (selectedItems) {
+                          // Selection handled by controller
+                        },
                       ),
                       const SizedBox(height: 12),
 
-                      // Rating dropdown
-                      BaseSelectDropdown(
-                        name: 'Рейтинг',
-                        values: ratings,
-                        initialDropDownHeader:
-                            selectedRatings.isEmpty
-                                ? ''
-                                : '${selectedRatings.length} выбрано',
+                      // Multi-select Rating dropdown
+                      MultiDropdown<String>(
+                        controller: ratingsController,
+                        items: ratings,
+                        fieldDecoration: FieldDecoration(
+                          hintText: 'Рейтинг',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey[300]!),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                              color: const Color(0xFF8257E6),
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                        ),
+                        chipDecoration: const ChipDecoration(
+                          backgroundColor: Color(0xFFD6C9F2),
+                          labelStyle: TextStyle(color: Colors.black87),
+                          wrap: true,
+                        ),
+                        dropdownDecoration: DropdownDecoration(
+                          maxHeight: 300,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        dropdownItemDecoration: DropdownItemDecoration(
+                          selectedIcon: const Icon(
+                            Icons.check,
+                            color: Color(0xFF8257E6),
+                          ),
+                        ),
+                        onSelectionChange: (selectedItems) {
+                          // Selection handled by controller
+                        },
                       ),
                       const SizedBox(height: 12),
 
-                      // Range dropdown
-                      BaseSelectDropdown(
-                        name: 'Диапазон',
-                        values: ranges,
-                        initialDropDownHeader:
-                            selectedRanges.isEmpty
-                                ? ''
-                                : '${selectedRanges.length} выбрано',
+                      // Single-select Range dropdown - using MultiDropdown with singleSelect: true
+                      MultiDropdown<String>(
+                        controller: rangeController,
+                        items: ranges,
+                        singleSelect:
+                            true, // Changed from selectionType: SelectionType.single
+                        fieldDecoration: FieldDecoration(
+                          hintText: 'Диапазон',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey[300]!),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                              color: const Color(0xFF8257E6),
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                        ),
+                        chipDecoration: const ChipDecoration(
+                          backgroundColor: Color(0xFFD6C9F2),
+                          labelStyle: TextStyle(color: Colors.black87),
+                        ),
+                        dropdownDecoration: DropdownDecoration(
+                          maxHeight: 200,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        dropdownItemDecoration: DropdownItemDecoration(
+                          selectedIcon: const Icon(
+                            Icons.check,
+                            color: Color(0xFF8257E6),
+                          ),
+                        ),
+                        onSelectionChange: (selectedItems) {
+                          // Selection handled by controller
+                        },
                       ),
                       const SizedBox(height: 12),
 
-                      // Mood dropdown
-                      BaseSelectDropdown(
-                        name: 'Настроение',
-                        values: moods,
-                        initialDropDownHeader:
-                            selectedMoods.isEmpty
-                                ? ''
-                                : '${selectedMoods.length} выбрано',
+                      // Single-select Mood dropdown
+                      MultiDropdown<String>(
+                        controller: moodController,
+                        items: moods,
+                        singleSelect:
+                            true, // Changed from selectionType: SelectionType.single
+                        fieldDecoration: FieldDecoration(
+                          hintText: 'Настроение',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey[300]!),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(
+                              color: const Color(0xFF8257E6),
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                        ),
+                        chipDecoration: const ChipDecoration(
+                          backgroundColor: Color(0xFFD6C9F2),
+                          labelStyle: TextStyle(color: Colors.black87),
+                        ),
+                        dropdownDecoration: DropdownDecoration(
+                          maxHeight: 200,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        dropdownItemDecoration: DropdownItemDecoration(
+                          selectedIcon: const Icon(
+                            Icons.check,
+                            color: Color(0xFF8257E6),
+                          ),
+                        ),
+                        onSelectionChange: (selectedItems) {
+                          // Selection handled by controller
+                        },
                       ),
 
-                      // Add extra space at the bottom for better spacing
+                      // Add extra space for better spacing
                       const SizedBox(height: 24),
                     ],
                   ),
@@ -143,10 +286,22 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                       'price': price,
                       'description': description,
                       'chartImageUrls': chartImageUrls,
-                      'categories': selectedCategories,
-                      'ratings': selectedRatings,
-                      'ranges': selectedRanges,
-                      'moods': selectedMoods,
+                      'categories':
+                          categoriesController.selectedItems
+                              .map((item) => item.label)
+                              .toList(),
+                      'ratings':
+                          ratingsController.selectedItems
+                              .map((item) => item.label)
+                              .toList(),
+                      'range':
+                          rangeController.selectedItems.isNotEmpty
+                              ? rangeController.selectedItems.first.label
+                              : null,
+                      'mood':
+                          moodController.selectedItems.isNotEmpty
+                              ? moodController.selectedItems.first.label
+                              : null,
                     },
                   );
                 },
