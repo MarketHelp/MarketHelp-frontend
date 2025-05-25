@@ -58,7 +58,7 @@ class ProductsScreen extends StatelessWidget {
                             'productName': product.name,
                             'rating': product.rating,
                             'productImageUrl': product.imageUrl,
-                            'price': '1 ₽',
+                            'price': product.price,
                             'chartImageUrls': product.chartImageUrls,
                           },
                         );

@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/header.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 
-class AnalyticsCreateScreen extends StatefulWidget {
-  const AnalyticsCreateScreen({Key? key}) : super(key: key);
-
-  @override
-  State<AnalyticsCreateScreen> createState() => _AnalyticsCreateScreenState();
-}
-
-class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
+class AnalyticsCreateScreen extends StatelessWidget {
   // Controllers for the dropdowns
   final categoriesController = MultiSelectController<String>();
   final ratingsController = MultiSelectController<String>();
@@ -17,10 +11,10 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
 
   // Example values for dropdowns using DropdownItem format
   final List<DropdownItem<String>> categories = [
-    DropdownItem(label: 'Одежда', value: 'Одежда'),
-    DropdownItem(label: 'Техника', value: 'Техника'),
-    DropdownItem(label: 'Еда', value: 'Еда'),
-    DropdownItem(label: 'Книги', value: 'Книги'),
+    DropdownItem(label: 'Качество', value: 'quality'),
+    DropdownItem(label: 'Доставка', value: 'delivery'),
+    DropdownItem(label: 'Описание', value: 'description'),
+    DropdownItem(label: 'Упаковка', value: 'packaging'),
   ];
 
   final List<DropdownItem<String>> ratings = [
@@ -32,17 +26,19 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
   ];
 
   final List<DropdownItem<String>> ranges = [
-    DropdownItem(label: 'Неделя', value: 'Неделя'),
-    DropdownItem(label: 'Месяц', value: 'Месяц'),
-    DropdownItem(label: 'Квартал', value: 'Квартал'),
-    DropdownItem(label: 'Год', value: 'Год'),
+    DropdownItem(label: 'Неделя', value: 'week'),
+    DropdownItem(label: 'Месяц', value: 'month'),
+    DropdownItem(label: 'Квартал', value: 'quarter'),
+    DropdownItem(label: 'Год', value: 'year'),
   ];
 
   final List<DropdownItem<String>> moods = [
-    DropdownItem(label: 'Позитивные', value: 'Позитивные'),
-    DropdownItem(label: 'Нейтральные', value: 'Нейтральные'),
-    DropdownItem(label: 'Негативные', value: 'Негативные'),
+    DropdownItem(label: 'Позитивные', value: 'positive'),
+    DropdownItem(label: 'Нейтральные', value: 'neutral'),
+    DropdownItem(label: 'Негативные', value: 'negative'),
   ];
+
+  AnalyticsCreateScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,51 +46,40 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
     final String productName = args['productName'] ?? 'Unknown Product';
     final double rating = args['rating'] ?? 0.0;
     final String? productImageUrl = args['productImageUrl'];
-    final String price = args['price'] ?? '0 ₽';
+    final String price = args['price'].toString() + " ₽" ?? '0 ₽';
     final String description =
         args['description'] ?? 'No description available';
     final List<String> chartImageUrls = args['chartImageUrls'] ?? [];
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        backgroundColor: const Color(
-          0xFF8257E6,
-        ), // Purple color from screenshot
-        title: const Text(
-          'Настройка анализа',
-          style: TextStyle(color: Colors.white),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        elevation: 0,
-      ),
+      appBar: Header(
+        screenTitle: 'Настройка анализа',
+      ), // Purple color from screenshot
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Make content scrollable
+              // Description text
+              Padding(
+                padding: const EdgeInsets.only(top: 144.0, bottom: 8.0),
+                child: Text(
+                  'Выберите параметры, по которым будет проводиться анализ отзывов',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+
+              // Scrollable content area
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Description text
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: Text(
-                          'Выберите параметры, по которым будет проводиться анализ отзывов',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                      const SizedBox(height: 8),
 
                       // Multi-select Category dropdown
                       MultiDropdown<String>(
@@ -103,19 +88,15 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                         fieldDecoration: FieldDecoration(
                           hintText: 'Категории',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none,
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: const Color(0xFF8257E6),
-                            ),
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none,
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
+                          backgroundColor: Colors.white,
+                          suffixIcon: const Icon(Icons.keyboard_arrow_down),
                         ),
                         chipDecoration: const ChipDecoration(
                           backgroundColor: Color(0xFFD6C9F2),
@@ -124,7 +105,7 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                         ),
                         dropdownDecoration: DropdownDecoration(
                           maxHeight: 300,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         dropdownItemDecoration: DropdownItemDecoration(
                           selectedIcon: const Icon(
@@ -132,9 +113,7 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                             color: Color(0xFF8257E6),
                           ),
                         ),
-                        onSelectionChange: (selectedItems) {
-                          // Selection handled by controller
-                        },
+                        onSelectionChange: (selectedItems) {},
                       ),
                       const SizedBox(height: 12),
 
@@ -145,19 +124,15 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                         fieldDecoration: FieldDecoration(
                           hintText: 'Рейтинг',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none,
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: const Color(0xFF8257E6),
-                            ),
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none,
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
+                          backgroundColor: Colors.white,
+                          suffixIcon: const Icon(Icons.keyboard_arrow_down),
                         ),
                         chipDecoration: const ChipDecoration(
                           backgroundColor: Color(0xFFD6C9F2),
@@ -166,7 +141,7 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                         ),
                         dropdownDecoration: DropdownDecoration(
                           maxHeight: 300,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         dropdownItemDecoration: DropdownItemDecoration(
                           selectedIcon: const Icon(
@@ -174,34 +149,27 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                             color: Color(0xFF8257E6),
                           ),
                         ),
-                        onSelectionChange: (selectedItems) {
-                          // Selection handled by controller
-                        },
+                        onSelectionChange: (selectedItems) {},
                       ),
                       const SizedBox(height: 12),
 
-                      // Single-select Range dropdown - using MultiDropdown with singleSelect: true
+                      // Single-select Range dropdown
                       MultiDropdown<String>(
                         controller: rangeController,
                         items: ranges,
-                        singleSelect:
-                            true, // Changed from selectionType: SelectionType.single
+                        singleSelect: true,
                         fieldDecoration: FieldDecoration(
                           hintText: 'Диапазон',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none,
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: const Color(0xFF8257E6),
-                            ),
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none,
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
+                          backgroundColor: Colors.white,
+                          suffixIcon: const Icon(Icons.keyboard_arrow_down),
                         ),
                         chipDecoration: const ChipDecoration(
                           backgroundColor: Color(0xFFD6C9F2),
@@ -209,7 +177,7 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                         ),
                         dropdownDecoration: DropdownDecoration(
                           maxHeight: 200,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         dropdownItemDecoration: DropdownItemDecoration(
                           selectedIcon: const Icon(
@@ -217,9 +185,7 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                             color: Color(0xFF8257E6),
                           ),
                         ),
-                        onSelectionChange: (selectedItems) {
-                          // Selection handled by controller
-                        },
+                        onSelectionChange: (selectedItems) {},
                       ),
                       const SizedBox(height: 12),
 
@@ -227,24 +193,19 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                       MultiDropdown<String>(
                         controller: moodController,
                         items: moods,
-                        singleSelect:
-                            true, // Changed from selectionType: SelectionType.single
+                        singleSelect: true,
                         fieldDecoration: FieldDecoration(
                           hintText: 'Настроение',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none,
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: const Color(0xFF8257E6),
-                            ),
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none,
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
+                          backgroundColor: Colors.white,
+                          suffixIcon: const Icon(Icons.keyboard_arrow_down),
                         ),
                         chipDecoration: const ChipDecoration(
                           backgroundColor: Color(0xFFD6C9F2),
@@ -252,7 +213,7 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                         ),
                         dropdownDecoration: DropdownDecoration(
                           maxHeight: 200,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         dropdownItemDecoration: DropdownItemDecoration(
                           selectedIcon: const Icon(
@@ -260,68 +221,63 @@ class _AnalyticsCreateScreenState extends State<AnalyticsCreateScreen> {
                             color: Color(0xFF8257E6),
                           ),
                         ),
-                        onSelectionChange: (selectedItems) {
-                          // Selection handled by controller
-                        },
+                        onSelectionChange: (selectedItems) {},
                       ),
-
-                      // Add extra space for better spacing
-                      const SizedBox(height: 24),
                     ],
                   ),
                 ),
               ),
 
-              // Analyze button - outside the scrollview but still at the bottom
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/analytics',
-                    arguments: {
-                      'productName': productName,
-                      'rating': rating,
-                      'productImageUrl': productImageUrl,
-                      'price': price,
-                      'description': description,
-                      'chartImageUrls': chartImageUrls,
-                      'categories':
-                          categoriesController.selectedItems
-                              .map((item) => item.label)
-                              .toList(),
-                      'ratings':
-                          ratingsController.selectedItems
-                              .map((item) => item.label)
-                              .toList(),
-                      'range':
-                          rangeController.selectedItems.isNotEmpty
-                              ? rangeController.selectedItems.first.label
-                              : null,
-                      'mood':
-                          moodController.selectedItems.isNotEmpty
-                              ? moodController.selectedItems.first.label
-                              : null,
+              // Analyze button at the bottom
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0, top: 8.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/analytics',
+                        arguments: {
+                          'productName': productName,
+                          'rating': rating,
+                          'productImageUrl': productImageUrl,
+                          'price': price,
+                          'description': description,
+                          'chartImageUrls': chartImageUrls,
+                          'categories':
+                              categoriesController.selectedItems
+                                  .map((item) => item.value)
+                                  .toList(),
+                          'ratings':
+                              ratingsController.selectedItems
+                                  .map((item) => item.value)
+                                  .toList(),
+                          'range':
+                              rangeController.selectedItems.isNotEmpty
+                                  ? rangeController.selectedItems.first.value
+                                  : null,
+                          'mood':
+                              moodController.selectedItems.isNotEmpty
+                                  ? moodController.selectedItems.first.value
+                                  : null,
+                        },
+                      );
                     },
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF8257E6),
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      25,
-                    ), // Rounded corners as shown in screenshot
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF8257E6),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                    child: const Text(
+                      'Анализировать',
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ),
-                  minimumSize: const Size(
-                    double.infinity,
-                    50,
-                  ), // Ensure button has good height
-                ),
-                child: const Text(
-                  'Анализировать',
-                  style: TextStyle(fontSize: 16),
                 ),
               ),
             ],
