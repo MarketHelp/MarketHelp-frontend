@@ -52,9 +52,8 @@ class ShopsScreen extends StatelessWidget {
                     final shop = state.shops[index];
                     return ShopTile(
                       shopName: shop.name,
-                      apiKey: shop.apiKey,
-                      rating: shop.rating,
-                      logoUrl: shop.logoUrl,
+                      apiKey: "api",
+                      rating: 4.5,
                       onTap: () {
                         // Handle shop tile tap
                         Navigator.pushNamed(

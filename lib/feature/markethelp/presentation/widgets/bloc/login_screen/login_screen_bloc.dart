@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:markethelp_frontend/core/constants/constants.dart';
 import 'package:markethelp_frontend/feature/markethelp/domain/repository/auth_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,8 +25,11 @@ class LoginScreenBloc extends Bloc<LoginScreenEvent, LoginScreenState> {
         result.fold((error) => '', (token) => token.token),
       );
 
-      print(sharedPreferences.getString('token'));
+      // MarketHelpConstants.addAuthHeader(
+      //   sharedPreferences.getString('token') ?? "",
+      // );
 
+      print(sharedPreferences.getString('token'));
       result.fold(
         (error) {
           add(LoginScreenBadCreditalsEvent());
