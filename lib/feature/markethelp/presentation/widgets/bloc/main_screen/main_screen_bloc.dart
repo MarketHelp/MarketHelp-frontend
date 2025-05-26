@@ -9,13 +9,15 @@ import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/scre
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/registration_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/shops_screen.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'main_screen_event.dart';
 part 'main_screen_state.dart';
 
 class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
+  final SharedPreferences sharedPreferences = GetIt.I<SharedPreferences>();
   MainScreenBloc() : super(MainScreenInitialState()) {
-    bool authenticated = false;
+    bool authenticated = sharedPreferences.getString('token') != "";
     ShopRepository shopRepository = GetIt.I<ShopRepository>();
     on<InitialStateEvent>((event, emit) async {
       if (authenticated) {

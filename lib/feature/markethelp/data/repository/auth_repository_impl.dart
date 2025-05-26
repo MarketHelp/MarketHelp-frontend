@@ -13,7 +13,7 @@ class AuthRepositoryImpl extends AuthRepository {
     try {
       print(credentials.toJson());
       final response = await _dio.post(
-        'http://minecraftslaves.duckdns.org:8082/auth/login',
+        MarketHelpConstants.server + '/auth/login',
         data: credentials.toJson(),
         options: Options(headers: MarketHelpConstants.headers),
       );
@@ -25,18 +25,21 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<AuthError, AuthToken>> register(AuthCredentials credentials) {
-    if (credentials.login.isEmpty || credentials.password.isEmpty) {
-      return Future.value(
-        Left(AuthError(errorCode: '400', errorMessage: 'Invalid credentials')),
+  Future<Either<AuthError, AuthToken>> register(
+    AuthCredentials credentials,
+  ) async {
+    try {
+      print(credentials.toJson());
+      final response = await _dio.post(
+        MarketHelpConstants.server + '/auth/register',
+        data: credentials.toJson(),
+        options: Options(headers: MarketHelpConstants.headers),
       );
-    }
-    if (credentials.login == "admin" && credentials.password == "admin") {
-      return Future.value(Right(AuthToken(token: "token")));
-      // Simulate a successful registration
-    } else {
-      return Future.value(
-        Left(AuthError(errorCode: '401', errorMessage: 'Unauthorized')),
+      print(response.data);
+      return Right(AuthToken(token: response.data['token']));
+    } catch (e) {
+      return Left(
+        AuthError(errorCode: '500', errorMessage: 'Registration failed'),
       );
     }
   }
