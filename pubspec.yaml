@@ -47,6 +47,7 @@ dependencies:
   dartz: ^0.10.1
   flutter_native_splash: ^2.4.6
   multi_dropdown: ^3.0.1
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
