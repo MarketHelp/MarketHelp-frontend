@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:markethelp_frontend/feature/markethelp/domain/entity/visualization_entity.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/analysis/chart.dart';
 
 enum ProductTileType { basic, withAnalytics }
@@ -10,7 +11,7 @@ class ProductTile extends StatelessWidget {
   final VoidCallback? onTap;
   final ProductTileType tileType;
   final String? timeData;
-  final List<String>? chartImageUrls;
+  final List<VisualizationEntity>? visuals;
 
   const ProductTile._({
     Key? key,
@@ -20,7 +21,7 @@ class ProductTile extends StatelessWidget {
     this.onTap,
     required this.tileType,
     this.timeData,
-    this.chartImageUrls,
+    this.visuals,
   }) : super(key: key);
 
   // Factory constructor that delegates to the right implementation
@@ -33,7 +34,7 @@ class ProductTile extends StatelessWidget {
     bool? withAnalytics,
     String? timeData,
     ProductTileType? type,
-    List<String>? chartImageUrls,
+    List<VisualizationEntity>? visuals,
   }) {
     // Determine the type based on parameters
     ProductTileType tileType =
@@ -50,7 +51,7 @@ class ProductTile extends StatelessWidget {
       onTap: onTap,
       tileType: tileType,
       timeData: timeData ?? '12:00',
-      chartImageUrls: chartImageUrls,
+      visuals: visuals,
     );
   }
 
@@ -80,7 +81,7 @@ class ProductTile extends StatelessWidget {
     String? logoUrl,
     VoidCallback? onTap,
     String timeData = '12:00',
-    List<String>? chartImageUrls,
+    List<VisualizationEntity>? visuals,
   }) {
     return ProductTile._(
       key: key,
@@ -90,7 +91,7 @@ class ProductTile extends StatelessWidget {
       onTap: onTap,
       tileType: ProductTileType.withAnalytics,
       timeData: timeData,
-      chartImageUrls: chartImageUrls,
+      visuals: visuals,
     );
   }
 
@@ -218,22 +219,27 @@ class ProductTile extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: ChartWidget(
-                          imageUrl:
-                              chartImageUrls?.isNotEmpty == true
-                                  ? chartImageUrls![0]
-                                  : null,
-                        ),
+                        child:
+                            visuals != null && visuals!.isNotEmpty
+                                ? ChartWidget(
+                                  visual: visuals!.firstWhere(
+                                    (v) => v.format == VisualizationFormat.bar,
+                                    orElse: () => visuals!.first,
+                                  ),
+                                )
+                                : const SizedBox(),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: ChartWidget(
-                          imageUrl:
-                              chartImageUrls != null &&
-                                      chartImageUrls!.length > 1
-                                  ? chartImageUrls![1]
-                                  : null,
-                        ),
+                        child:
+                            visuals != null && visuals!.isNotEmpty
+                                ? ChartWidget(
+                                  visual: visuals!.firstWhere(
+                                    (v) => v.format == VisualizationFormat.pie,
+                                    orElse: () => visuals!.first,
+                                  ),
+                                )
+                                : const SizedBox(),
                       ),
                     ],
                   ),

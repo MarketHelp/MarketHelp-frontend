@@ -1,19 +1,24 @@
+import 'dart:io';
+
+import 'package:flutter/widgets.dart';
+import 'package:get_it/get_it.dart';
+import 'package:retrofit/dio.dart';
+import 'package:markethelp_frontend/feature/markethelp/data/restclient/rest_client.dart';
 import 'package:markethelp_frontend/feature/markethelp/domain/entity/product_entity.dart';
+import 'package:markethelp_frontend/feature/markethelp/domain/entity/visualization_entity.dart';
 import 'package:markethelp_frontend/feature/markethelp/domain/repository/product_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductRepositoryImpl extends ProductRepository {
+  RestClient restClient = GetIt.I<RestClient>();
+  SharedPreferences sharedPreferences = GetIt.I<SharedPreferences>();
   @override
   Future<List<String>> generateVisualization(
-    String shopId,
+    int shopId,
     String productId, {
     Map<String, dynamic>? filters,
   }) {
-    Map<String, List<String>> visuals = Map<String, List<String>>.from({
-      "1": ['id1', 'id2', 'id3'],
-      "2": ['id4', 'id5', 'id6'],
-    });
-
-    return Future.value(visuals[shopId] ?? []);
+    throw UnimplementedError();
   }
 
   @override
@@ -23,36 +28,56 @@ class ProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  Future<List<ProductEntity>> getProducts(String shopId) {
-    return Future.value(
-      [
-        ProductEntity(
-          id: '1',
-          shopId: '1',
-          name: 'Удочка золотая',
-          price: 10.0,
-          rating: 4.5,
-          imageUrl:
-              'https://img.joomcdn.net/e1e3ef0dc63f9ba7db83dc64d181280beaa4470f_1024_1024.jpeg',
-          visualizationAvailable: true,
-        ),
-        ProductEntity(
-          id: '2',
-          shopId: '2',
-          name: 'Вечный шрекс',
-          price: 20.0,
-          rating: 4.0,
-          imageUrl:
-              'https://www.meme-arsenal.com/memes/13baee4e0ecfe88ecf88e0b00f0129a5.jpg',
-          visualizationAvailable: false,
-        ),
-      ].where((product) => product.shopId == shopId).toList(),
-    );
+  Future<List<ProductEntity>> getProducts(int shopId) {
+    return restClient
+        .getProducts(
+          shopId,
+          'Bearer ' + (sharedPreferences.getString('token') ?? ""),
+        )
+        .then((value) {
+          return value;
+        })
+        .catchError((error) {
+          print('Error fetching products: $error');
+          return [];
+        });
   }
 
   @override
   Future<void> syncProducts() {
     // TODO: implement syncProducts
     throw UnimplementedError();
+  }
+
+  @override
+  Future<HttpResponse<List<int>>> getVisualization(
+    int shopId,
+    String productId,
+    String visualizationId,
+  ) async {
+    return restClient.getVisualization(
+      shopId,
+      productId,
+      visualizationId,
+      'Bearer ' + (sharedPreferences.getString('token') ?? ""),
+    );
+  }
+
+  @override
+  Future<List<VisualizationEntity>> getVisualizations(
+    int shopId,
+    String productId,
+  ) async {
+    List<VisualizationEntity> visuals = await restClient.getVisualizations(
+      shopId,
+      productId,
+      'Bearer ' + (sharedPreferences.getString('token') ?? ""),
+    );
+
+    for (int i = 0; i < visuals.length; i++) {
+      visuals[i].addProductId(productId);
+      visuals[i].addShopId(shopId);
+    }
+    return Future.value(visuals);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
+import 'package:markethelp_frontend/core/constants/constants.dart';
 import 'package:markethelp_frontend/feature/markethelp/domain/entity/shop_entity.dart';
 import 'package:markethelp_frontend/feature/markethelp/domain/repository/shop_repository.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/auth_screen.dart';
@@ -9,12 +10,18 @@ import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/scre
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/registration_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/shops_screen.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'main_screen_event.dart';
 part 'main_screen_state.dart';
 
 class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
+  final SharedPreferences sharedPreferences = GetIt.I<SharedPreferences>();
   MainScreenBloc() : super(MainScreenInitialState()) {
+    // bool authenticated = sharedPreferences.getString('token') != "";
+    // bool authenticated =
+    //     sharedPreferences.getString('token') != null &&
+    //     sharedPreferences.getString('token')!.isNotEmpty;
     bool authenticated = false;
     ShopRepository shopRepository = GetIt.I<ShopRepository>();
     on<InitialStateEvent>((event, emit) async {

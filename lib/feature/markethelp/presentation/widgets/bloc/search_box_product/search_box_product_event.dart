@@ -10,7 +10,7 @@ class SearchBoxProductTextChangedEvent extends SearchBoxProductEvent {
 }
 
 class SearchBoxProductLoadEvent extends SearchBoxProductEvent {
-  final String shopId;
+  final int shopId;
 
   SearchBoxProductLoadEvent(this.shopId);
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:markethelp_frontend/feature/markethelp/domain/entity/visualization_entity.dart';
 import 'package:markethelp_frontend/feature/markethelp/domain/usecase/analytics_uscase.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/analysis/chart.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/header.dart';
@@ -29,7 +30,7 @@ class AnalyticsScreen extends StatelessWidget {
     final String price = args['price'] ?? '0 ₽';
     final String description =
         args['description'] ?? 'No description available';
-    final List<String> chartImageUrls = args['chartImageUrls'] ?? [];
+    final List<VisualizationEntity> visuals = args['visuals'] ?? [];
 
     // Extract the filter parameters from AnalyticsCreateScreen
     final List<String> selectedCategories = args['categories'] ?? [];
@@ -67,10 +68,11 @@ class AnalyticsScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               ChartWidget(
-                imageUrl:
-                    chartImageUrls.isNotEmpty
-                        ? chartImageUrls[0]
-                        : '', // Replace with your chart URL
+                visual: visuals!.firstWhere(
+                  (v) => v.format == VisualizationFormat.bar,
+                  orElse: () => visuals!.first,
+                ),
+                // Replace with your chart URL
                 height: 200,
                 width: double.infinity,
               ),
@@ -78,10 +80,10 @@ class AnalyticsScreen extends StatelessWidget {
               SizedBox(height: 16),
 
               ChartWidget(
-                imageUrl:
-                    chartImageUrls.isNotEmpty && chartImageUrls.length > 1
-                        ? chartImageUrls[1]
-                        : '', // Replace with your chart URL
+                visual: visuals!.firstWhere(
+                  (v) => v.format == VisualizationFormat.pie,
+                  orElse: () => visuals!.first,
+                ), // Replace with your chart URL
                 height: 200,
                 width: double.infinity,
               ),
@@ -101,7 +103,7 @@ class AnalyticsScreen extends StatelessWidget {
               SizedBox(height: 24),
 
               // Action buttons
-              _buildExportButton(),
+              _buildExportButton(visuals),
               const SizedBox(height: 12),
 
               _buildBackButton(context),
@@ -191,19 +193,24 @@ class AnalyticsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildExportButton() {
+  Widget _buildExportButton(List<VisualizationEntity> visuals) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () async {
           AnalyticsUsecase a = AnalyticsUsecase();
-          String s = await a.downloadFile(
-            url:
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/250px-Image_created_with_a_mobile_phone.png",
+          final response = await a.getimage(
+            visuals.firstWhere(
+              (v) => v.format == VisualizationFormat.all,
+              orElse: () => visuals.first,
+            ),
           );
+
+          final path = await a.saveImageToTemp(response.data);
+
           final params = ShareParams(
             text: "Аналитика из MarketHelp",
-            files: [XFile(s)],
+            files: [XFile(path)],
           );
 
           await _sharePlus.share(params);

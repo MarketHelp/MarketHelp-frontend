@@ -11,7 +11,7 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map;
-    final String shopId = args['shopId'] ?? null;
+    final int shopId = args['shopId'] ?? null;
     context.read<SearchBoxProductBloc>().add(SearchBoxProductLoadEvent(shopId));
 
     //MVP Only
@@ -39,16 +39,21 @@ class ProductsScreen extends StatelessWidget {
           // This Expanded is crucial - it prevents the Column + ListView crash
           BlocBuilder<SearchBoxProductBloc, SearchBoxProductState>(
             builder: (context, state) {
+              if (state.products.isEmpty) {
+                return const Expanded(
+                  child: Center(child: Text('No products found')),
+                );
+              }
+
               return Expanded(
                 child: ListView.builder(
                   itemCount: state.products.length,
                   itemBuilder: (context, index) {
                     final product = state.products[index];
-                    print(product.chartImageUrls);
                     return ProductTile(
                       productName: product.name,
-                      rating: product.rating,
-                      logoUrl: product.imageUrl,
+                      rating: 4.5,
+                      // logoUrl: product.imageUrl,
                       onTap: () {
                         // Handle product tile tap
                         Navigator.pushNamed(
@@ -56,19 +61,21 @@ class ProductsScreen extends StatelessWidget {
                           '/createAnalytics',
                           arguments: {
                             'productName': product.name,
-                            'rating': product.rating,
-                            'productImageUrl': product.imageUrl,
-                            'price': product.price,
-                            'chartImageUrls': product.chartImageUrls,
+                            'visuals': product.visuals,
+                            // 'rating': product.rating,
+                            // 'productImageUrl': product.imageUrl,
+                            // 'price': product.price,
+                            // 'chartImageUrls': product.chartImageUrls,
                           },
                         );
                       },
-                      withAnalytics: product.visualizationAvailable,
+                      withAnalytics: product.hasVisualization,
                       timeData: '12:00',
-                      chartImageUrls:
-                          product.visualizationAvailable
-                              ? product.chartImageUrls
-                              : null,
+                      visuals: product.visuals,
+                      // chartImageUrls:
+                      //     product.visualizationAvailable
+                      //         ? product.chartImageUrls
+                      //         : null,
                     );
                   },
                 ),

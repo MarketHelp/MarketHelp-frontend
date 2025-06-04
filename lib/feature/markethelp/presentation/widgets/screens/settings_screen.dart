@@ -62,7 +62,9 @@ class SettingsScreen extends StatelessWidget {
                 child: _buildMenuItem(
                   context,
                   'Тариф',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, '/tariff');
+                  },
                   trailing: 'Базовый',
                 ),
               ),
