@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - dev
-      - test 
+      - main 
 
 jobs: 
   build: 
