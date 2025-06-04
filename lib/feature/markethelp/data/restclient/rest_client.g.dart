@@ -65,6 +65,152 @@ class _RestClient implements RestClient {
     return _value;
   }
 
+  @override
+  Future<List<ProductEntity>> getProducts(int shopId, String token) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{
+      r'Content-Type': 'application/json',
+      r'Accept': '*/*',
+      r'Accept-Encoding': 'gzip, deflate, br',
+      r'Connection': 'keep-alive',
+      r'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+      r'Authorization': token,
+    };
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<ProductEntity>>(
+      Options(
+            method: 'GET',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'application/json',
+          )
+          .compose(
+            _dio.options,
+            '/shops/${shopId}/products',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<ProductEntity> _value;
+    try {
+      _value =
+          _result.data!
+              .map(
+                (dynamic i) =>
+                    ProductEntity.fromJson(i as Map<String, dynamic>),
+              )
+              .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<List<VisualizationEntity>> getVisualizations(
+    int shopId,
+    String productId,
+    String token,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{
+      r'Content-Type': 'application/json',
+      r'Accept': '*/*',
+      r'Accept-Encoding': 'gzip, deflate, br',
+      r'Connection': 'keep-alive',
+      r'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+      r'Authorization': token,
+    };
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<VisualizationEntity>>(
+      Options(
+            method: 'GET',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'application/json',
+          )
+          .compose(
+            _dio.options,
+            '/shops/${shopId}/products/${productId}/visualizations',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<VisualizationEntity> _value;
+    try {
+      _value =
+          _result.data!
+              .map(
+                (dynamic i) =>
+                    VisualizationEntity.fromJson(i as Map<String, dynamic>),
+              )
+              .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<HttpResponse<List<int>>> getVisualization(
+    int shopId,
+    String productId,
+    String visualizationId,
+    String token,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{
+      r'Content-Type': 'application/json',
+      r'Accept': '*/*',
+      r'Accept-Encoding': 'gzip, deflate, br',
+      r'Connection': 'keep-alive',
+      r'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+      r'Authorization': token,
+    };
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<List<int>>>(
+      Options(
+            method: 'GET',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'application/json',
+            responseType: ResponseType.bytes,
+          )
+          .compose(
+            _dio.options,
+            '/shops/${shopId}/products/${productId}/visualizations/${visualizationId}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<int> _value;
+    try {
+      _value = _result.data!.cast<int>();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

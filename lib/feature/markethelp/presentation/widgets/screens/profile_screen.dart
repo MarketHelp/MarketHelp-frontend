@@ -28,126 +28,133 @@ class _ProfileScreenState extends State<ProfileScreen> {
         withSettings: false,
         showBackButton: true,
       ),
-      body: Container(
-        color: Colors.grey[50],
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 40), // Increased spacing at the top
-            // Larger profile picture placeholder
-            Center(
-              child: Container(
-                width: 150, // Increased from 100
-                height: 150, // Increased from 100
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.grey, width: 1),
-                ),
-                child: ClipOval(
-                  child: Container(
-                    color: Colors.white, // Placeholder color
-                    child: const Icon(
-                      Icons.person,
-                      size: 100, // Increased icon size
-                      color: Colors.grey,
+      body: SingleChildScrollView(
+        child: Container(
+          color: Colors.grey[50],
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 40), // Increased spacing at the top
+              // Larger profile picture placeholder
+              Center(
+                child: Container(
+                  width: 150, // Increased from 100
+                  height: 150, // Increased from 100
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.grey, width: 1),
+                  ),
+                  child: ClipOval(
+                    child: Container(
+                      color: Colors.white, // Placeholder color
+                      child: const Icon(
+                        Icons.person,
+                        size: 100, // Increased icon size
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 50), // Increased spacing below avatar
-            // Login field
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(color: Colors.grey),
-              ),
-              child: TextField(
-                controller: _loginController,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 15,
+              const SizedBox(height: 50), // Increased spacing below avatar
+              // Login field
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(color: Colors.grey),
+                ),
+                child: TextField(
+                  controller: _loginController,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 15,
+                    ),
+                    hintText: 'login',
+                    border: InputBorder.none,
+                    suffixIcon: Icon(
+                      Icons.edit,
+                      color: Colors.grey,
+                    ), // Non-clickable icon
                   ),
-                  hintText: 'login',
-                  border: InputBorder.none,
-                  suffixIcon: Icon(
-                    Icons.edit,
-                    color: Colors.grey,
-                  ), // Non-clickable icon
                 ),
               ),
-            ),
 
-            // Password field
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(color: Colors.grey),
-              ),
-              child: TextField(
-                controller: _passwordController,
-                obscureText: _obscurePassword,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 15,
-                  ),
-                  hintText: '••••••••',
-                  border: InputBorder.none,
-                  suffixIcon: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: Colors.grey,
+              // Password field
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(color: Colors.grey),
+                ),
+                child: TextField(
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 15,
+                    ),
+                    hintText: '••••••••',
+                    border: InputBorder.none,
+                    suffixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
                         ),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
+                        const Icon(
+                          Icons.edit,
+                          color: Colors.grey,
+                        ), // Non-clickable icon
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 30),
+
+              // Save button
+              SafeArea(
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Save functionality
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF8e44ad), // Purple color
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
                       ),
-                      const Icon(
-                        Icons.edit,
-                        color: Colors.grey,
-                      ), // Non-clickable icon
-                    ],
+                    ),
+                    child: const Text(
+                      'Сохранить',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-
-            const SizedBox(height: 30),
-
-            // Save button
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Save functionality
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF8e44ad), // Purple color
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                child: const Text(
-                  'Сохранить',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

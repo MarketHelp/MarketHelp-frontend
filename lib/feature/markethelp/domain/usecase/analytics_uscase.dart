@@ -1,12 +1,20 @@
 import 'dart:io';
 import 'dart:ui';
-import 'package:dio/dio.dart';
+import 'package:retrofit/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get_it/get_it.dart';
+import 'package:markethelp_frontend/core/constants/constants.dart';
+import 'package:markethelp_frontend/feature/markethelp/domain/entity/visualization_entity.dart';
+import 'package:markethelp_frontend/feature/markethelp/domain/repository/product_repository.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AnalyticsUsecase {
-  final Dio _dio = GetIt.I<Dio>();
+  // final Dio _dio = GetIt.I<Dio>();
+  final ProductRepository _productRepository = GetIt.I<ProductRepository>();
+  final SharedPreferences _sharedPreferences = GetIt.I<SharedPreferences>();
 
   /// Downloads a file from the provided URL and saves it to a local path
   /// Returns the path to the downloaded file or throws an exception if download fails
@@ -22,17 +30,27 @@ class AnalyticsUsecase {
       final savePath = '${directory.path}/$fileName';
 
       // Download with progress
-      await _dio.download(
-        url,
-        savePath,
-        onReceiveProgress: (received, total) {
-          if (total != -1) {
-            final progress = received / total;
-            onProgressUpdate?.call(progress);
-          }
-        },
-        deleteOnError: true,
-      );
+      // await _dio.download(
+      //   url,
+      //   savePath,
+      //   options: Options(
+      //     responseType: ResponseType.bytes,
+      //     followRedirects: false,
+      //     validateStatus: (status) => status! < 500,
+      //     headers: {
+      //       ...MarketHelpConstants.headers,
+      //       'Authorization':
+      //           'Bearer ${_sharedPreferences.getString('token') ?? ''}',
+      //     },
+      //   ),
+      //   onReceiveProgress: (received, total) {
+      //     if (total != -1) {
+      //       final progress = received / total;
+      //       onProgressUpdate?.call(progress);
+      //     }
+      //   },
+      //   deleteOnError: true,
+      // );
 
       // Verify file exists
       final file = File(savePath);
@@ -109,5 +127,32 @@ class AnalyticsUsecase {
     };
 
     return imageUrls[url] ?? 'assets/mvp_charts/bar1.png';
+  }
+
+  Future<HttpResponse<List<int>>> getimage(VisualizationEntity visual) async {
+    final response = await _productRepository.getVisualization(
+      visual.shopId,
+      visual.productId,
+      visual.id,
+    );
+    return response;
+  }
+
+  Future<String> saveImageToTemp(List<int> imageBytes, {String? name}) async {
+    // Get the temporary directory
+    final directory = await getTemporaryDirectory();
+
+    // Generate a file name with timestamp to ensure uniqueness
+    final fileName =
+        name ?? 'markethelp_chart_${DateTime.now().millisecondsSinceEpoch}.png';
+
+    // Create the file path
+    final filePath = '${directory.path}/$fileName';
+
+    // Write bytes to file
+    final file = File(filePath);
+    await file.writeAsBytes(imageBytes);
+
+    return filePath;
   }
 }

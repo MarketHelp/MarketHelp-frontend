@@ -18,6 +18,7 @@ import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/scre
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/shops_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/products_screen.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/analiytics_screen.dart';
+import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/screens/tariff_screen.dart';
 import 'package:markethelp_frontend/injector.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -69,6 +70,7 @@ class MyApp extends StatelessWidget {
               '/settings': (context) => SettingsScreen(),
               '/profile': (context) => ProfileScreen(),
               '/createAnalytics': (context) => AnalyticsCreateScreen(),
+              '/tariff': (context) => const TariffScreen(),
             },
             home: state.currentScreen,
           );

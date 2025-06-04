@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:markethelp_frontend/feature/markethelp/domain/entity/visualization_entity.dart';
 import 'package:markethelp_frontend/feature/markethelp/presentation/widgets/components/header.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 
@@ -45,7 +46,7 @@ class AnalyticsCreateScreen extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as Map;
     final String productName = args['productName'] ?? 'Unknown Product';
     final double rating = args['rating'] ?? 0.0;
-    final String? productImageUrl = args['productImageUrl'];
+    final List<VisualizationEntity>? visuals = args['visuals'];
     final String price = args['price'].toString() + " ₽" ?? '0 ₽';
     final String description =
         args['description'] ?? 'No description available';
@@ -241,7 +242,7 @@ class AnalyticsCreateScreen extends StatelessWidget {
                         arguments: {
                           'productName': productName,
                           'rating': rating,
-                          'productImageUrl': productImageUrl,
+                          'visuals': visuals,
                           'price': price,
                           'description': description,
                           'chartImageUrls': chartImageUrls,

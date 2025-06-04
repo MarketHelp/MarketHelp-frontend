@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:get_it/get_it.dart';
 import 'package:markethelp_frontend/feature/markethelp/domain/entity/product_entity.dart';
+import 'package:markethelp_frontend/feature/markethelp/domain/entity/visualization_entity.dart';
 import 'package:markethelp_frontend/feature/markethelp/domain/repository/product_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:stream_transform/stream_transform.dart';
@@ -18,7 +19,7 @@ EventTransformer<E> debounceDroppable<E>(Duration duration) {
 class SearchBoxProductBloc
     extends Bloc<SearchBoxProductEvent, SearchBoxProductState> {
   final ProductRepository repository = GetIt.I<ProductRepository>();
-  String shopId = "";
+  int shopId = 0;
   List<ProductEntity> currentProducts = List<ProductEntity>.empty();
 
   SearchBoxProductBloc()
@@ -40,18 +41,25 @@ class SearchBoxProductBloc
   Future<void> _loadInitialData() async {
     try {
       currentProducts = await repository.getProducts(shopId);
+      print("Loaded products: ${currentProducts.length}");
       for (int i = 0; i < currentProducts.length; i++) {
         ProductEntity product = currentProducts[i];
-        if (product.visualizationAvailable) {
-          List<String> visuals = await repository.generateVisualization(
-            shopId,
-            product.id,
-          );
-          print(visuals);
-          product.addChartImageUrls(visuals);
+        print(
+          "Product: ${product.name}, hasVisualization: ${product.hasVisualization}",
+        );
+        if (product.hasVisualization) {
+          List<VisualizationEntity> visuals = await repository
+              .getVisualizations(shopId, product.id);
+          print("Visuals for product ${product.name}: ${visuals.length}");
+          if (visuals.isNotEmpty) {
+            product.addVisuals(visuals);
+          } else {
+            product.addVisuals(List<VisualizationEntity>.empty());
+          }
           currentProducts[i] = product;
         }
       }
+
       emit(SearchBoxProductInitialState(products: currentProducts));
     } catch (e) {
       // Handle error if needed
