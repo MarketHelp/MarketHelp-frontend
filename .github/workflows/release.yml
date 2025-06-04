@@ -4,6 +4,9 @@ on:
       - dev
       - main 
 
+permissions:
+  contents: write
+
 jobs: 
   build: 
     name: Build & Release
@@ -33,3 +36,4 @@ jobs:
         with:
             artifacts: "build/app/outputs/flutter-apk/app-release.apk"
             tag: v0.0.${{ github.run_number }}
+            token: ${{ secrets.GITHUB_TOKEN }}
